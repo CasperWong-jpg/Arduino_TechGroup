@@ -39,22 +39,41 @@ def load_data(x_path, y_path):
 def add_set_of_layers(model, X, input_shape): 
 
     if input_shape: 
-        first_layer = Conv2D(64, (3,3), input_shape = X.shape[1:] ) 
+        first_sub_layer = Conv2D(64, (3,3), input_shape = X.shape[1:] ) 
     else: 
-        first_layer = Conv2D(64, (3,3)) 
+        first_sub_layer = Conv2D(64, (3,3)) 
 
-    model.add(first_layer)
-    second_layer = Activation("relu") 
-    model.add(second_layer)
-    third_layer = MaxPooling2D(pool_size=(2,2))
-    model.add(third_layer)
+    model.add(first_sub_layer)
+    second_sub_layer = Activation("relu") 
+    model.add(second_sub_layer)
+    third_sub_layer = MaxPooling2D(pool_size=(2,2))
+    model.add(third_sub_layer)
 
 
-def model_and_train(X, y): 
+def add_output_layers(model): 
+    model.add(Dense(1)) 
+    model.add(Activation("sigmoid")) 
+
+
+def model_and_train(X, y, batch_size): 
     model = Sequential() 
 
+    #first layer 
     add_set_of_layers(model, X, input_shape = True) 
+
+    #second layer
     add_set_of_layers(model, X, input_shape=False) 
 
+    #third layer 
+    model.add(Flatten()) 
+    model.add(Dense(64)) 
+
+    #output layer 
+    add_output_layers(model) 
+
+
+    #train
+    model.compile(loss = "binary_crossentropy", optimizer = "adam", metrics = ["accuracy"])
+    model.fit(X, y, batch_size, validation_split = 0.1)
 
     
