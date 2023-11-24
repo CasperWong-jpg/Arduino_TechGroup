@@ -8,13 +8,14 @@ class StepperTB{
 public:
 
   // Data members 
-  int dirPin, pulsePin;
+  int enPin, dirPin, pulsePin;
   bool direction;
   float motorSpeed;
-  float stepAngle;
+  float stepAngle;  
 
   // Constructor  
-  StepperTB(int dirPin, int pulsePin){
+  StepperTB(int enPin, int dirPin, int pulsePin){
+    this->enPin = enPin;
     this->dirPin = dirPin;
     this->pulsePin = pulsePin;
     this->direction = cw;
@@ -26,6 +27,8 @@ public:
   void initPins(){
     pinMode(pulsePin,OUTPUT); 
     pinMode(dirPin,OUTPUT);
+    pinMode(enPin,OUTPUT);
+    digitalWrite(enPin, LOW);
   }
 
   // to set "direction" attribute
@@ -45,14 +48,14 @@ public:
   }
 
   void step(int numStep){
-    
+
       digitalWrite(this->dirPin, this->direction); // set direction attribute
-      
+
       float pulseSpeed = rpm2PulseSpeed(this->motorSpeed);  // [steps/sec]
 
       float secPerStep = (1/pulseSpeed); 
       float msPerStep = secPerStep* 1000; 
-  
+
       for (int x = 0; x < numStep; x++)
       {
         digitalWrite(this->pulsePin,this->direction); 
@@ -60,6 +63,12 @@ public:
         digitalWrite(this->pulsePin,!this->direction); 
         delay(msPerStep/2);
       }
+  }
+
+
+  void rotate(int degrees){
+    int numStep = degrees/(this->stepAngle);
+    this->step(numStep);
   }
 
 };
