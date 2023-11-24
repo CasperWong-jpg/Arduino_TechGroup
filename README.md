@@ -1,12 +1,8 @@
-## Image detection package:
-In progress!
-Resources:
-* https://docs.arduino.cc/learn/programming/arduino-and-python
-* https://docs.opencv.org/4.x/de/d7a/tutorial_table_of_content_core.html
+## Project Description
+This is the codebase for the autonomous gardening robot that I built and oversaw for the 2022-2023 academic year. The gardening robot is actuated by stepper motors and pumps, which are controlled by an Arduino Uno, and uses a webcam to detect plants, which is controlled by a Raspberry Pi. For more information about and photos of the project, see my [portfolio here](https://casperwong.weebly.com/interdisciplinary-projects.html)!
 
-## _Stepper package:
+### How to run
+For this code to be useful, you will need to build a robot gantry! If interested, the CAD files can be found in the repo, and all parts are either ordered from Amazon / McMaster-Carr or 3D printed. You can contact me for wiring schematics - we used TB6600 stepper drivers. 
 
-#Stepper-TB6600
-
-Schematic (make own schematic with all relevant modules sometime)
-![tb600 schematic](https://user-images.githubusercontent.com/9832108/80222610-f90ebe80-85fb-11ea-96dc-08712a1996f7.png)
+1. Upload `_stepper/example.ino` to Arduino Uno
+2. Run `imagge_detection/main.py` on Raspberry Pi
